@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import Home from './components/Home';
 import Assets from './components/Assets';
 import Task from './components/Task';
+ import AssetsList from './components/AssetsList';
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Auth />} />
         <Route path="/assets/:id" element={<Assets />} />
+        <Route path="/assets" element={<AssetsList/>} />
         <Route path="/task" element={<Task />} />
       </Routes>
     </Router>

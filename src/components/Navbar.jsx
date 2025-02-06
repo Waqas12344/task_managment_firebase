@@ -45,7 +45,7 @@ const Navbar = () => {
       <div className='text-3xl font-bold'>Task Management</div>
       <ul className='flex items-center space-x-4'>
         {user && role === "admin" && <li><Link to="/">Home</Link></li>}
-        {user && role === "admin" && <li><Link to="/assets/:id">Assets</Link></li>}
+        {user && role === "admin" && <li><Link to="/assets">Assets</Link></li>}
         {user && <li><Link to="/task">Task</Link></li>}
         {!user && <li><Link to="/login">Auth</Link></li>}
         {user && <li><button onClick={handleLogout} className='px-4 py-2 text-xl bg-black text-white border rounded-xl'>LogOut</button></li>}
