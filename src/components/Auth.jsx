@@ -17,7 +17,7 @@ const Auth = () => {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
         // Save role in Firestore
-        await setDoc(doc(db,"task-managment-app", user.uid), {
+        await setDoc(doc(db, "users", user.uid), {
           email,
           role,
         });
