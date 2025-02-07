@@ -19,8 +19,8 @@ const Navbar = () => {
           setRole(userDoc.data().role);
           if (userDoc.data().role === "admin" && location.pathname === "/login") {
             navigate("/");
-          } else if (userDoc.data().role === "worker" && location.pathname !== "/task") {
-            navigate("/task");
+          } else if (userDoc.data().role === "worker" && location.pathname !== "/homeworker") {
+            navigate("/homeworker");
           }
         }
       } else {
@@ -41,14 +41,14 @@ const Navbar = () => {
   };
 
   return (
-    <div className='flex max-w-[1260px] h-[12vh] items-center justify-between mx-auto p-10 text-xl'>
-      <div className='text-3xl font-bold'>Task Management</div>
+    <div className='flex max-w-[1260px] h-[12vh] items-center justify-between mx-auto px-5 py-10 text-xl'>
+      <div className=' text-xl md:text-3xl font-bold'>Task Management</div>
       <ul className='flex items-center space-x-4'>
-        {user && role === "admin" && <li><Link to="/">Home</Link></li>}
+        {user && role === "admin" && <li className="text-sm md:text-xl"><Link to="/">Home</Link></li>}
         {/* {user && role === "admin" && <li><Link to="/assets">Assets</Link></li>}
         {user && <li><Link to="/task">Task</Link></li>} */}
-        {!user && <li><Link to="/login">Auth</Link></li>}
-        {user && <li><button onClick={handleLogout} className='px-4 py-2 text-xl bg-black text-white border rounded-xl'>LogOut</button></li>}
+        {!user && <li className="text-sm md:text-xl"><Link to="/login">Auth</Link></li>}
+        {user && <li><button onClick={handleLogout} className='px-4 py-2 text-sm md:text-xl bg-black text-white border rounded-xl'>LogOut</button></li>}
       </ul>
     </div>
   );

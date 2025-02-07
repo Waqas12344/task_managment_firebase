@@ -68,16 +68,16 @@ const Home = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-[88vh] bg-gray-100 p-6">
+    <div className="flex flex-col items-center justify-center h-[88vh] bg-gradient-to-br from-blue-500 to-indigo-600 p-6">
       <div className="bg-white p-6 rounded shadow-md w-full max-w-2xl md:max-w-3xl lg:max-w-5xl">
-        <h2 className="text-3xl font-semibold mb-4">Home Screen</h2>
-        <p className="mb-4 text-xl">Welcome to the Task Management App!</p>
-        <h2 className="text-center text-2xl md:text-3xl lg:text-4xl font-bold uppercase m-2">List of Locations</h2>
+        <h2 className="text-2xl md:text-3xl font-semibold mb-4">Home Screen</h2>
+        <p className="mb-4 text-base md:text-xl">Welcome to the Task Management App!</p>
+        <h2 className="text-center text-2xl md:text-3xl lg:text-4xl font-bold uppercase my-5">List of Locations</h2>
 
         {loading ? (
-          <p className="text-center text-2xl">Loading...</p>
+          <p className="text-center text-3xl my-5">Loading...</p>
         ) : locations.length === 0 ? (
-          <p className="text-center">No locations found</p>
+          <p className="text-center text-xl md:text-2xl">No locations found</p>
         ) : (
           <ul className="mb-4">
             {locations.map((location) => (
@@ -85,14 +85,14 @@ const Home = () => {
                 <Link to={`/assets/${location.id}`} className="flex-1" onClick={() => handleLocationClick(location.id)}>
   {location.name}
 </Link>
-                <button onClick={() => handleEdit(location.id)} className="bg-yellow-500 text-white px-2 py-1 rounded ml-2">Edit</button>
-                <button onClick={() => handleDelete(location.id)} className="bg-red-500 text-white px-2 py-1 rounded ml-2">Delete</button>
+                <button onClick={() => handleEdit(location.id)} className="bg-yellow-500 text-white px-2 py-1 rounded ml-2 text-sm md:text-xl md:w-20 w-15 ">Edit</button>
+                <button onClick={() => handleDelete(location.id)} className="bg-red-500 text-white px-2 py-1 rounded ml-2 text-sm md:text-xl md:w-20 w-15 ">Delete</button>
               </li>
             ))}
           </ul>
         )}
 
-        <button onClick={() => { setShowForm(!showForm); setEditLocation(null); setNewLocation({ name: "", address: "", description: "" }); }} className="bg-blue-500 text-white p-2 rounded mb-4">
+        <button onClick={() => { setShowForm(!showForm); setEditLocation(null); setNewLocation({ name: "", address: "", description: "" }); }} className="bg-blue-500 text-white p-2 rounded mb-4 text-base md:text-lg">
           {showForm ? "Cancel" : "Add Location"}
         </button>
 

@@ -6,6 +6,7 @@ import Home from './components/Home';
 import Assets from './components/Assets';
 import Task from './components/Task';
  import AssetsList from './components/AssetsList';
+import HomeWorker from './components/HomeWorker';
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
         <Route path="/assets/:locationId" element={<Assets />} />
         <Route path="/assets" element={<AssetsList/>} />
         <Route path="/tasks/:assetId" element={<Task/>} />
+        <Route path="/homeworker" element={<HomeWorker/>} />
       </Routes>
     </Router>
   );
