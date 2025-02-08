@@ -68,44 +68,51 @@ const Home = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-[88vh] bg-gradient-to-br from-blue-500 to-indigo-600 p-6">
-      <div className="bg-white p-6 rounded shadow-md w-full max-w-2xl md:max-w-3xl lg:max-w-5xl">
-        <h2 className="text-2xl md:text-3xl font-semibold mb-4">Home Screen</h2>
-        <p className="mb-4 text-base md:text-xl">Welcome to the Task Management App!</p>
-        <h2 className="text-center text-2xl md:text-3xl lg:text-4xl font-bold uppercase my-5">List of Locations</h2>
-
-        {loading ? (
-          <p className="text-center text-3xl my-5">Loading...</p>
-        ) : locations.length === 0 ? (
-          <p className="text-center text-xl md:text-2xl">No locations found</p>
-        ) : (
-          <ul className="mb-4">
-            {locations.map((location) => (
-              <li key={location.id} className="flex justify-between items-center bg-gray-200 p-3 rounded mb-2 text-lg md:text-xl">
-                <Link to={`/assets/${location.id}`} className="flex-1" onClick={() => handleLocationClick(location.id)}>
-  {location.name}
-</Link>
-                <button onClick={() => handleEdit(location.id)} className="bg-yellow-500 text-white px-2 py-1 rounded ml-2 text-sm md:text-xl md:w-20 w-15 ">Edit</button>
-                <button onClick={() => handleDelete(location.id)} className="bg-red-500 text-white px-2 py-1 rounded ml-2 text-sm md:text-xl md:w-20 w-15 ">Delete</button>
-              </li>
-            ))}
-          </ul>
-        )}
-
-        <button onClick={() => { setShowForm(!showForm); setEditLocation(null); setNewLocation({ name: "", address: "", description: "" }); }} className="bg-blue-500 text-white p-2 rounded mb-4 text-base md:text-lg">
-          {showForm ? "Cancel" : "Add Location"}
-        </button>
-
-        {showForm && (
-          <div className="flex flex-col space-y-2">
-            <input type="text" placeholder="Location Name" className="p-3 border rounded text-lg md:text-xl" value={newLocation.name} onChange={(e) => setNewLocation({ ...newLocation, name: e.target.value })} />
-            <input type="text" placeholder="Address" className="p-3 border rounded text-lg md:text-xl" value={newLocation.address} onChange={(e) => setNewLocation({ ...newLocation, address: e.target.value })} />
-            <input type="text" placeholder="Description" className="p-3 border rounded text-lg md:text-xl" value={newLocation.description} onChange={(e) => setNewLocation({ ...newLocation, description: e.target.value })} />
-            <button onClick={handleAddOrUpdateLocation} className="bg-green-500 text-white p-3 rounded text-lg md:text-xl">{editLocation ? "Update Location" : "Save Location"}</button>
-          </div>
-        )}
-      </div>
+    <div className="flex flex-col items-center justify-center min-h-[88vh] bg-gradient-to-br from-blue-600 to-indigo-700 p-6">
+    <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-2xl">
+      <h2 className="text-3xl font-bold text-gray-800 mb-6">Home Screen</h2>
+      <p className="text-lg text-gray-600 mb-6">Welcome to the Task Management App!</p>
+      <h2 className="text-center text-2xl font-bold uppercase text-gray-800 mb-8">List of Locations</h2>
+  
+      {loading ? (
+        <p className="text-center text-2xl text-gray-600 my-6">Loading...</p>
+      ) : locations.length === 0 ? (
+        <p className="text-center text-xl text-gray-600">No locations found</p>
+      ) : (
+        <ul className="space-y-4">
+          {locations.map((location) => (
+            <li key={location.id} className="flex justify-between items-center bg-gray-50 p-4 rounded-lg hover:shadow-md transition-shadow">
+              <Link to={`/assets/${location.id}`} className="flex-1 text-lg text-blue-600 hover:underline" onClick={() => handleLocationClick(location.id)}>
+                {location.name}
+              </Link>
+              <div className="flex gap-2">
+                <button onClick={() => handleEdit(location.id)} className="bg-yellow-400 text-white px-4 py-2 rounded-lg hover:bg-yellow-500 transition-colors">Edit</button>
+                <button onClick={() => handleDelete(location.id)} className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors">Delete</button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+  
+      <button
+        onClick={() => { setShowForm(!showForm); setEditLocation(null); setNewLocation({ name: "", address: "", description: "" }); }}
+        className="w-full bg-blue-600 text-white p-3 rounded-lg mt-6 hover:bg-blue-700 transition-colors"
+      >
+        {showForm ? "Cancel" : "Add Location"}
+      </button>
+  
+      {showForm && (
+        <div className="mt-6 space-y-4">
+          <input type="text" placeholder="Location Name" className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" value={newLocation.name} onChange={(e) => setNewLocation({ ...newLocation, name: e.target.value })} />
+          <input type="text" placeholder="Address" className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" value={newLocation.address} onChange={(e) => setNewLocation({ ...newLocation, address: e.target.value })} />
+          <input type="text" placeholder="Description" className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" value={newLocation.description} onChange={(e) => setNewLocation({ ...newLocation, description: e.target.value })} />
+          <button onClick={handleAddOrUpdateLocation} className="w-full bg-green-500 text-white p-3 rounded-lg hover:bg-green-600 transition-colors">
+            {editLocation ? "Update Location" : "Save Location"}
+          </button>
+        </div>
+      )}
     </div>
+  </div>
   );
 };
 

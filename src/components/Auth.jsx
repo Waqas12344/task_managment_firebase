@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { auth, db } from "../firebase/config";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { setDoc, doc } from "firebase/firestore";
-import { Link } from "react-router-dom";
+import { setDoc, doc, getDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 const Auth = () => {
   const [email, setEmail] = useState("");
@@ -10,39 +10,68 @@ const Auth = () => {
   const [role, setRole] = useState("worker");
   const [isSignup, setIsSignup] = useState(false);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleAuth = async (e) => {
     e.preventDefault();
     setError("");
+
     try {
       if (isSignup) {
         if (password.length < 6) {
-          setError("Password must be greater than 6 characters");
+          setError("Password must be at least 6 characters long");
           return;
         }
+
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
+
         await setDoc(doc(db, "users", user.uid), {
           email,
           role,
         });
+
         setEmail("");
         setPassword("");
+
+        if (role === "admin") {
+          navigate("/home");
+        } else {
+          navigate("/homeworker");
+        }
       } else {
-        await signInWithEmailAndPassword(auth, email, password);
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        // Fetch role from Firestore
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        if (userDoc.exists()) {
+          const userRole = userDoc.data().role;
+          if (userRole === "admin") {
+            navigate("/home");
+          } else {
+            navigate("/homeworker");
+          }
+        } else {
+          setError("User role not found. Please contact admin.");
+        }
       }
     } catch (error) {
-      if (error.code === "auth/email-already-in-use") {
-        setError("Email already exists. Please use a different email.");
-      } else if (error.code === "auth/invalid-email") {
-        setError("Invalid email format.");
-      } else if (error.code === "auth/wrong-password") {
-        setError("Incorrect password. Please try again.");
-      } else if (error.code === "auth/user-not-found") {
-        setError("No account found with this email.");
-      } else {
-        setError("Login failed. Please check your credentials.");
-      }
+      handleAuthError(error);
+    }
+  };
+
+  const handleAuthError = (error) => {
+    if (error.code === "auth/email-already-in-use") {
+      setError("Email already exists. Please use a different email.");
+    } else if (error.code === "auth/invalid-email") {
+      setError("Invalid email format.");
+    } else if (error.code === "auth/wrong-password") {
+      setError("Incorrect password. Please try again.");
+    } else if (error.code === "auth/user-not-found") {
+      setError("No account found with this email.");
+    } else {
+      setError("Login failed. Please check your credentials.");
     }
   };
 
@@ -84,10 +113,7 @@ const Auth = () => {
         </form>
         <p className="mt-4 text-lg text-center text-gray-700">
           {isSignup ? "Already have an account? " : "Don't have an account? "} 
-          <span
-            className="text-blue-500 hover:underline cursor-pointer"
-            onClick={() => setIsSignup(!isSignup)}
-          >
+          <span className="text-blue-500 hover:underline cursor-pointer" onClick={() => setIsSignup(!isSignup)}>
             {isSignup ? "Login" : "Sign Up"}
           </span>
         </p>
